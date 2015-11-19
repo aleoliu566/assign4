@@ -11,7 +11,6 @@ int enemyType;
 PImage fighter,hp,treasure,enemy,bg1,bg2;
 PImage start1,start2,end1,end2;
 int bgx1,bgx2 = 0;
-
 PImage[] flame = new PImage[5];
 
 float a,tx,ty,hpy;
@@ -34,6 +33,13 @@ boolean downPressed = false;
 boolean leftPressed = false;
 boolean rightPressed = false;
 
+int timer = 0;
+int flame_time=0;
+float flameX = 1000;
+float flameY = 1000;
+PImage [] Flame;
+
+
 void setup () {
     size(640,480) ;  // must use this size.
     start1 = loadImage("img/start1.png");
@@ -43,10 +49,6 @@ void setup () {
     shipx = width-50;
     shipy = height/2;
     fighter = loadImage("img/fighter.png");
-    for(int i = 0 ; i<flame.length;i++){
-      flame[i] = loadImage("img/flame"+(i+1)+".png");
-    }
-    a = random(430);
     hp = loadImage("img/hp.png");
     hpy = 40;
     fill(255,0,0);
@@ -65,7 +67,6 @@ void setup () {
     float p=random(220)+100;
     for(int i=0;i<enemyy1.length;i++){
         enemyy1[i]=n;
-        //enemyyy2[i]=m;
         if(i>0){
           enemyx1[i]=enemyx1[i-1]-spacing;
           enemyx2[i]=enemyx2[i-1]-spacing;
@@ -78,6 +79,13 @@ void setup () {
     }
     gameState = GAME_START;
     enemyType = ENEMY_1;
+    
+    
+    //bomb 
+    flame = new PImage[5];
+    for(int i = 0 ; i<flame.length;i++){
+      flame[i] = loadImage("img/flame"+(i+1)+".png");
+    }
 }
 
 void draw() {
@@ -119,16 +127,24 @@ void draw() {
                     if(shipx<=enemyx1[i]+60 && shipx>=enemyx1[i]-50){
                       if(shipy<=enemyy1[i]+60 && shipy>=enemyy1[i]-50){
                         hpy=hpy-40;
-                          image(flame[0],enemyx1[i],enemyy1[i]);
-                          image(flame[1],enemyx1[i],enemyy1[i]);
-                          image(flame[2],enemyx1[i],enemyy1[i]);
-                          image(flame[3],enemyx1[i],enemyy1[i]);
-                          image(flame[4],enemyx1[i],enemyy1[i]);
-                          enemyy1[i]=600;
+                        flameX = enemyx1[i];
+                        flameY = enemyy1[i];
+                        flame_time = 0;                        
+                        enemyy1[i]=600;
                         }
-                        
                       }
                     }
+                image(flame[flame_time],flameX,flameY,60,60);
+                timer++;
+                if(timer>10){
+                   flame_time++;
+                   timer = 0;
+                }
+                if(flame_time>=flame.length){
+                   flameX=1000;
+                   flameY=1000;
+                   flame_time=0;
+                }
                 //set enemy3
                 float p=random(220)+100;
                 for(int i=0;i<enemyy3.length;i++){
@@ -167,10 +183,26 @@ void draw() {
                     if(shipx<=enemyx2[i]+60 && shipx>=enemyx2[i]-50){
                       if(shipy<=enemyy2[i]+60 && shipy>=enemyy2[i]-50){
                         hpy=hpy-40;
+                        
+                        flameX = enemyx2[i];
+                        flameY = enemyy2[i];
+                        flame_time = 0;                        
+                        
                         enemyy2[i]=600;
                       }
                     }
                  }
+                 image(flame[flame_time],flameX,flameY,60,60);
+                  timer++;
+                  if(timer>10){
+                     flame_time++;
+                     timer = 0;
+                  }
+                  if(flame_time>=flame.length){
+                     flameX=1000;
+                     flameY=1000;
+                     flame_time=0;
+                  }
                  //set enemy1
                  float n = random(415);
                     for(int j=0;j<enemyy1.length;j++){
@@ -193,10 +225,27 @@ void draw() {
                     if(shipx<=enemyx3[i]+60 && shipx>=enemyx3[i]-50){
                       if(shipy<=enemyy3[i]+60 && shipy>=enemyy3[i]-50){
                         hpy=hpy-40;
+                        
+                        flameX = enemyx3[i];
+                        flameY = enemyy3[i];
+                        flame_time = 0; 
+                        
+                        
                         enemyy3[i]=600;
                       }
                     }
                  }
+                 image(flame[flame_time],flameX,flameY,60,60);
+                  timer++;
+                  if(timer>10){
+                     flame_time++;
+                     timer = 0;
+                  }
+                  if(flame_time>=flame.length){
+                     flameX=1000;
+                     flameY=1000;
+                     flame_time=0;
+                  }
                  //set enemy2
                  float m=random(269);
                  for(int i=0;i<enemyy2.length;i++){
@@ -267,7 +316,9 @@ void draw() {
              }else{
                 enemyx1[j]=enemyx1[j-1]-spacing;
              }
-            } 
+            }
+        flameX=1000;
+        flameY=1000;
         if(mouseX > 205 && mouseX <440){
           if(mouseY >305 && mouseY <350){
             image(end1,0,0);
