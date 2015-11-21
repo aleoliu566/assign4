@@ -12,6 +12,7 @@ PImage fighter,hp,treasure,enemy,bg1,bg2;
 PImage start1,start2,end1,end2;
 int bgx1,bgx2 = 0;
 PImage[] flame = new PImage[5];
+PImage[] shoot = new PImage[6];
 
 float a,tx,ty,hpy;
 int shipx,shipy;
@@ -39,6 +40,12 @@ float flameX = 1000;
 float flameY = 1000;
 PImage [] Flame;
 
+//bullet
+int [] bullet_x={0,1,2,3,4};
+int [] bullet_y={0,1,2,3,4};
+
+int bullet=1;
+int space;
 
 void setup () {
     size(640,480) ;  // must use this size.
@@ -64,7 +71,7 @@ void setup () {
     
     float n=random(415);
     float m=random(269);
-    float p=random(220)+100;
+    //float p=random(220)+100;
     for(int i=0;i<enemyy1.length;i++){
         enemyy1[i]=n;
         if(i>0){
@@ -86,7 +93,18 @@ void setup () {
     for(int i = 0 ; i<flame.length;i++){
       flame[i] = loadImage("img/flame"+(i+1)+".png");
     }
-}
+    
+    
+    //bullet
+    for(int i =0; i<shoot.length;i++){
+      shoot[i]=loadImage("img/shoot.png"); 
+    }
+    for(int i=0;i<=4;i++){
+      bullet_x[i]=-300;
+      bullet_y[i]=-300;
+    }
+    
+    }
 
 void draw() {
   switch(gameState){
@@ -97,6 +115,7 @@ void draw() {
           image(start1,0,0);
             if(mousePressed)
               gameState = GAME_RUN;
+              bullet=1;
         }
       }
       break;
@@ -126,14 +145,26 @@ void draw() {
                     enemyx1[i]=enemyx1[i]+speed;//speed;
                     if(shipx<=enemyx1[i]+60 && shipx>=enemyx1[i]-50){
                       if(shipy<=enemyy1[i]+60 && shipy>=enemyy1[i]-50){
-                        hpy=hpy-40;
                         flameX = enemyx1[i];
                         flameY = enemyy1[i];
-                        flame_time = 0;                        
-                        enemyy1[i]=600;
+                        flame_time = 0;  
+                              hpy=hpy-40;
+                              enemyy1[i]=700;  
+                
                         }
                       }
                     }
+                    /*}*/
+                    for(int i=0;i<enemyx1.length;i++){
+                    for(int j=0;j<bullet_x.length;j++){
+                      if(bullet_x[j]<=enemyx1[i]+60&&bullet_x[j]>=enemyx1[i]-30){
+                        if(bullet_y[j]<=enemyy1[i]+60&&bullet_y[j]>=enemyy1[i]-30){
+                        flameX = enemyx1[i];
+                        flameY = enemyy1[i];
+                        flame_time = 0;  
+                        bullet_y[j]=-300;
+                        bullet_x[j]=-300;
+                        enemyy1[i]=600; }}}}
                 image(flame[flame_time],flameX,flameY,60,60);
                 timer++;
                 if(timer>10){
@@ -182,16 +213,26 @@ void draw() {
                     enemyx2[i]=enemyx2[i]+speed;
                     if(shipx<=enemyx2[i]+60 && shipx>=enemyx2[i]-50){
                       if(shipy<=enemyy2[i]+60 && shipy>=enemyy2[i]-50){
-                        hpy=hpy-40;
-                        
                         flameX = enemyx2[i];
                         flameY = enemyy2[i];
-                        flame_time = 0;                        
-                        
-                        enemyy2[i]=600;
+                        flame_time = 0;  
+                              hpy=hpy-40;
+                              enemyy2[i]=700;  
+                   
+                        }
                       }
-                    }
-                 }
+                }
+   
+                for(int i=0;i<enemyx2.length;i++){
+                for(int j=0;j<bullet_x.length;j++){
+                      if(bullet_x[j]<=enemyx2[i]+60&&bullet_x[j]>=enemyx2[i]-30){
+                        if(bullet_y[j]<=enemyy2[i]+60&&bullet_y[j]>=enemyy2[i]-30){
+                        flameX = enemyx2[i];
+                        flameY = enemyy2[i];
+                        flame_time = 0;  
+                        bullet_y[j]=-300;
+                        bullet_x[j]=-300;
+                        enemyy2[i]=600; }}}}
                  image(flame[flame_time],flameX,flameY,60,60);
                   timer++;
                   if(timer>10){
@@ -224,18 +265,26 @@ void draw() {
                     enemyx3[i]=enemyx3[i]+speed;
                     if(shipx<=enemyx3[i]+60 && shipx>=enemyx3[i]-50){
                       if(shipy<=enemyy3[i]+60 && shipy>=enemyy3[i]-50){
-                        hpy=hpy-40;
-                        
                         flameX = enemyx3[i];
                         flameY = enemyy3[i];
-                        flame_time = 0; 
-                        
-                        
-                        enemyy3[i]=600;
+                        flame_time = 0;  
+                        hpy=hpy-40;
+                        enemyy3[i]=700;  
+           
+                        }
                       }
-                    }
                  }
-                 image(flame[flame_time],flameX,flameY,60,60);
+                for(int i=0;i<enemyx3.length;i++){
+                for(int j=0;j<bullet_x.length;j++){
+                      if(bullet_x[j]<=enemyx3[i]+60&&bullet_x[j]>=enemyx3[i]-30){
+                        if(bullet_y[j]<=enemyy3[i]+60&&bullet_y[j]>=enemyy3[i]-30){
+                        flameX = enemyx3[i];
+                        flameY = enemyy3[i];
+                        flame_time = 0;  
+                        bullet_y[j]=-300;
+                        bullet_x[j]=-300;
+                        enemyy3[i]=600; }}}}             
+                  image(flame[flame_time],flameX,flameY,60,60);
                   timer++;
                   if(timer>10){
                      flame_time++;
@@ -266,6 +315,7 @@ void draw() {
               break;
             }
          }while(hpy<=0);
+      
       
       //blood
       rect(18, 13, hpy, 20);
@@ -305,6 +355,110 @@ void draw() {
           ty = random(440);
         }        
       }
+
+      if(space==1){
+         
+         //println(shipx);
+         bullet_x[4]=bullet_x[4]-3;         
+         bullet_x[3]=bullet_x[3]-3;
+         bullet_x[2]=bullet_x[2]-3;
+         bullet_x[1]=bullet_x[1]-3;
+         bullet_x[0]=bullet_x[0]-3;
+         /*if(bullet_x[]<0)
+           space=true;*/
+         if(bullet_x[0]<0||bullet_x[1]<0||bullet_x[2]<0||bullet_x[3]<0||bullet_x[4]<0){
+           bullet=2;
+         }else{
+           bullet=7;
+         }
+       }
+       image(shoot[1],bullet_x[0],bullet_y[0]);
+       if(space==2){
+         bullet_x[4]=bullet_x[4]-3;         
+         bullet_x[3]=bullet_x[3]-3;
+         bullet_x[2]=bullet_x[2]-3;
+         bullet_x[1]=bullet_x[1]-3;
+         bullet_x[0]=bullet_x[0]-3;
+         if(bullet_x[0]<0||bullet_x[1]<0||bullet_x[2]<0||bullet_x[3]<0||bullet_x[4]<0){
+           bullet=3;
+         }else{
+           bullet=8;
+         }
+         //bullet=3;
+       }
+       image(shoot[2],bullet_x[1],bullet_y[1]);
+      if(space==3){
+         bullet_x[4]=bullet_x[4]-3;         
+         bullet_x[3]=bullet_x[3]-3;
+         bullet_x[2]=bullet_x[2]-3;
+         bullet_x[1]=bullet_x[1]-3;
+         bullet_x[0]=bullet_x[0]-3;
+         if(bullet_x[0]<0||bullet_x[1]<0||bullet_x[2]<0||bullet_x[3]<0||bullet_x[4]<0){
+           bullet=4;
+         }else{
+           bullet=9;
+         }
+         //bullet=4;
+       }
+       image(shoot[3],bullet_x[2],bullet_y[2]);
+       if(space==4){
+         bullet_x[4]=bullet_x[4]-3;         
+         bullet_x[3]=bullet_x[3]-3;
+         bullet_x[2]=bullet_x[2]-3;
+         bullet_x[1]=bullet_x[1]-3;
+         bullet_x[0]=bullet_x[0]-3;
+         if(bullet_x[0]<0||bullet_x[1]<0||bullet_x[2]<0||bullet_x[3]<0||bullet_x[4]<0){
+           bullet=5;
+         }else{
+           bullet=10;
+         }
+         //bullet=5;
+       }
+       image(shoot[4],bullet_x[3],bullet_y[3]);
+       if(space==5){
+         bullet_x[4]=bullet_x[4]-3;         
+         bullet_x[3]=bullet_x[3]-3;
+         bullet_x[2]=bullet_x[2]-3;
+         bullet_x[1]=bullet_x[1]-3;
+         bullet_x[0]=bullet_x[0]-3;
+         if(bullet_x[0]<0||bullet_x[1]<0||bullet_x[2]<0||bullet_x[3]<0||bullet_x[4]<0){
+            bullet=1;
+         }else{
+            bullet=6;
+      }  
+       }
+       image(shoot[5],bullet_x[4],bullet_y[4]);
+       if(space==6){
+         bullet_x[4]=bullet_x[4]-3;         
+         bullet_x[3]=bullet_x[3]-3;
+         bullet_x[2]=bullet_x[2]-3;
+         bullet_x[1]=bullet_x[1]-3;
+         bullet_x[0]=bullet_x[0]-3;
+          
+           if(bullet_x[0]<0||bullet_x[1]<0||bullet_x[2]<0||bullet_x[3]<0||bullet_x[4]<0)
+        bullet=1;
+       }
+      
+      
+      if(bullet==7){
+          if(bullet_x[0]<0||bullet_x[1]<0||bullet_x[2]<0||bullet_x[3]<0||bullet_x[4]<0)
+        bullet=2;
+      }
+      if(bullet==8){
+          if(bullet_x[0]<0||bullet_x[1]<0||bullet_x[2]<0||bullet_x[3]<0||bullet_x[4]<0)
+        bullet=3;
+      }
+      if(bullet==9){
+          if(bullet_x[0]<0||bullet_x[1]<0||bullet_x[2]<0||bullet_x[3]<0||bullet_x[4]<0)
+        bullet=4;
+      }
+      if(bullet==10){
+          if(bullet_x[0]<0||bullet_x[1]<0||bullet_x[2]<0||bullet_x[3]<0||bullet_x[4]<0)
+        bullet=5;
+      }
+      
+      
+      
       break;
       case GAME_OVER:
         image(end2,0,0);
@@ -317,6 +471,11 @@ void draw() {
                 enemyx1[j]=enemyx1[j-1]-spacing;
              }
             }
+            
+          for(int i=0;i<=4;i++){
+            bullet_x[i]=-300;
+            bullet_y[i]=-300;
+          }
         flameX=1000;
         flameY=1000;
         if(mouseX > 205 && mouseX <440){
@@ -330,9 +489,7 @@ void draw() {
           }
         }
       break;
-      }
-}
-
+      }}
 
 void keyPressed(){
   if(key == CODED){
@@ -351,6 +508,40 @@ void keyPressed(){
         break;
     }
   }
+
+  if(key==' '){
+    if(bullet==1){
+      bullet_x[0]=shipx;
+      bullet_y[0]=shipy;
+      space = 1;
+
+    }
+    if(bullet==2){
+      space = 2;
+      bullet_x[1]=shipx;
+      bullet_y[1]=shipy;
+    }
+    if(bullet==3){
+      space = 3;
+      bullet_x[2]=shipx;
+      bullet_y[2]=shipy;
+    }
+    if(bullet==4){
+      space = 4;
+      bullet_x[3]=shipx;
+      bullet_y[3]=shipy;
+    }
+    if(bullet==5){
+      space = 5;
+      bullet_x[4]=shipx;
+      bullet_y[4]=shipy;
+      
+    }
+    if(bullet==6){
+      space=6;
+
+    }
+  }
 }
 void keyReleased(){
   if(key == CODED){
@@ -367,6 +558,4 @@ void keyReleased(){
       case RIGHT:
         rightPressed = false;
         break;
-    }
-  }
-}
+    }}}
